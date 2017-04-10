@@ -16,12 +16,7 @@ def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            # print 'test'
             form.save()
-            # post = form.save(commit=False)
-            # post.author = request.user
-            # post.published_date = timezone.now()
-            # post.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
@@ -35,13 +30,9 @@ from django import forms
 class TestForm(forms.Form):
     field1 = forms.CharField()
 
-
 def test_form_submit(request):
     if request.method == "POST":
         form = TestForm(request.POST)
-        print 'test0'
-        from django.conf import settings
-        print request.user
     else:
         form = TestForm()
     return render(request, 'test_form.html', {'form':form})
