@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse,HttpResponseRedirect
 from django.utils import timezone
 from .models import Post
 from .forms import PostForm
@@ -16,7 +17,15 @@ def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.published_date = timezone.now()
+            post.save()
+            if request.is_ajax():
+                print 'was ajax_request'
+                from .models import Post
+                post_num = len(Post.objects.all().all())
+                print post_num
+                # return HttpResponseRedirect('')
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
@@ -28,11 +37,16 @@ def post_new(request):
 
 from django import forms
 class TestForm(forms.Form):
-    field1 = forms.CharField()
+    test_field = forms.CharField()
 
+from django.template import RequestContext, loader
 def test_form_submit(request):
-    if request.method == "POST":
+    if request.method=="POST":
         form = TestForm(request.POST)
+        print 'request post_1'
+        if request.is_ajax():
+            print 'request is_ajax'
+            print request.POST.get('test_field')
     else:
         form = TestForm()
     return render(request, 'test_form.html', {'form':form})
