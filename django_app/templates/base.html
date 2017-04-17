@@ -12,10 +12,8 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
   </head>
 
-  <body>
-    <!-- <script src="https://www.reddit.com/.embed?limit=5" type="text/javascript"></script> -->
-    <div id="example-widget-container"></div>
-    <script src="{% static 'js/widget.js' %}"></script>
+  <body data-portal_url = "{{ PORTAL_URL }}">// to be accessible by JS
+
     <div class="col-xs-9">
     </div>
     <div class="col-xs-3">
@@ -23,18 +21,36 @@
         Number of notes: <span id="postNumber">{{ post_num }}</span>
       </div>
     </div>
-    <div class="page-header">
-      <a href="{% url 'post_new' %}" class='top-menu'>
-        <span class='glyphicon glyphicon-plus'>
-        </span>
-      </a>
-      <h1> <a href="/">Notes</a></h1>
 
+
+    <!-- <div class="page-header"> -->
+    <div class="row" id="page-header">
+      <div class="col-xs-8">
+        <a href="{% url 'post_new' %}" class='top-menu'>
+          <span class='glyphicon glyphicon-plus'>
+          </span>
+        </a>
+        <h1> <a href="/">Notes</a></h1>
+      </div>
+      <div class="col-xs-4">
+      </br>
+        <span>Random note widget:</span>
+        <div id="random_widget">
+          <script src="http://localhost:8000/static/js/widget.js"></script>
+          <script>
+            document.write('&lt;div id="widget-container"&gt;&lt;/div&gt;');
+          </script>
+        </br>
+          <script>
+          document.write('&lt;script src=&quot;{{ PORTAL_URL }}{% static "js/widget.js" %}&quot;&gt;&lt;/script&gt;');
+        </script>
+          <!-- <p id="widget-text"></p> -->
+        </div>
+      </div>
     </div>
 
-
     <div class="content container">
-      <div class="row">
+      <div class="row" id="page-content">
         {% block content %}
         {% endblock %}
       </div>

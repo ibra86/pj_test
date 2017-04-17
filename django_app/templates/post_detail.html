@@ -2,11 +2,9 @@
 
 {% block content %}
 <div class="col-md-8">
-  <div class="post">
+  <div class="post" id='post_detail'>
     {% if post.published_date %}
-      <div  class="post">
         {{ post.published_date }}
-      </div>
     {% endif %}
     <h1>{{ post.title }}</h1>
     <p>{{ post.text|linebreaksbr }}</p>
