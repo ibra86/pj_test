@@ -1,26 +1,29 @@
 {% load static from staticfiles %}
 
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
   <head>
     <title>Note's title</title>
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
   </head>
 
-  <body data-portal_url = "{{ PORTAL_URL }}">// to be accessible by JS
+  <body data-portal_url = "{{ PORTAL_URL }}"> <!-- to be accessible by JS -->
 
     <div class="col-xs-9">
     </div>
     <div class="col-xs-3">
       <div class="post-num">
-        Number of notes: <span id="postNumber">{{ post_num }}</span>
+        Number of notes:
+          <span id="postNumber" class="badge">{{ post_num }}</span>
       </div>
     </div>
+
+    {% include 'sup_header.html' %}
 
 
     <!-- <div class="page-header"> -->
@@ -34,20 +37,13 @@
       </div>
       <div class="col-xs-4">
       </br>
-        <span>Random note widget:</span>
-        <div id="random_widget">
-          <script src="http://localhost:8000/static/js/widget.js"></script>
-          <script>
-            document.write('&lt;div id="widget-container"&gt;&lt;/div&gt;');
-          </script>
-        </br>
-          <script>
-          document.write('&lt;script src=&quot;{{ PORTAL_URL }}{% static "js/widget.js" %}&quot;&gt;&lt;/script&gt;');
-        </script>
-          <!-- <p id="widget-text"></p> -->
-        </div>
+      {% url 'home' as url_home %}
+      {% if request.path == url_home %}
+        {% include 'widget_block.html' %}
+      {% endif %}
       </div>
     </div>
+
 
     <div class="content container">
       <div class="row" id="page-content">

@@ -3,20 +3,26 @@
 {% block content %}
 <div class="col-md-8">
   {% for post in posts %}
-    <div class="post">
-      <h1>
-        <a href="{% url 'post_detail' pk=post.pk %}">
-        {{ post.title }}
-        </a>
-        {% if post.photo %}
-          <img class="img-rounded" src="{{ post.photo.url }}" height="40"/>
-        {% endif %}
-      </h1>
-      <p>{{ post.text|linebreaksbr }}</p>
-        <div class="date">
-          published: {{post.published_date}}
-        </div>
-      <br>
+    <div class="media">
+      <div class="media-body">
+        <h1 class="media-heading">
+          <a href="{% url 'post_detail' pk=post.pk %}">
+          {{ post.title }}
+          </a>
+        </h1>
+        <p>{{ post.text|linebreaksbr }}</p>
+          <div class="date">
+            published: {{post.published_date}}
+          </div>
+        <br>
+      </div>
+      <div class="media-right">
+      {% if post.photo %}
+        <img class="img-rounded" src="{{ post.photo.url }}" style="width:60px"/>
+      {% else %}
+        <span style="width:60px;display:inline-block"></span>
+      {% endif %}
+      </div>
     </div>
   {% endfor %}
   </div>

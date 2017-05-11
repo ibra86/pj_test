@@ -23,10 +23,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'',include('django_app.urls')),
-    url(r'^$',views.post_list, name='post_list'),
+    url(r'^$',views.post_list, name='home'),
     url(r'^post/(?P<pk>[0-9]+)/$', views.post_detail, name='post_detail'),
     url(r'^post/new/$', views.post_new, name='post_new'),
     url(r'^test/$', views.test_form_submit, name='test_form_submit'),
+    url(r'^requests/$', views.requests, name='requests')
 ] + static(STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if DEBUG:

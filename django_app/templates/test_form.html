@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="widget-container"></div>
+<script src="http://localhost:8000/static/js/widget.js"></script>
+</br>
+  <h1>Test Form</h1>
+  <form method="POST" id="test-post-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type='submit' class='save btn btn-default'>
+      Save
+    </button>
+  </form>
+{% endblock %}

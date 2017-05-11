@@ -5,5 +5,8 @@ def post_num(request):
 
 def portal_url(request):
     from django_proj.settings import PORTAL_URL
-    print PORTAL_URL
     return {'PORTAL_URL': PORTAL_URL}
+
+def context_requests(request):
+    # print 'context_processor'
+    return request

@@ -1,0 +1,76 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> Requests </title>
+    <!-- <title>({{ new_req_num }}) Requests </title> -->
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  </head>
+
+  <body>
+    <!-- <p id='test'>test<p> -->
+
+    <!-- dummy line -->
+    <div class="post-num"></div>
+    {% include 'sup_header.html' %}
+
+    {% comment %}
+    <div  id="ttl">test + {{ a }}</div>
+    <div  id="ttl">test2 {{ requests }}</div>
+    {% endcomment %}
+
+  </br>
+    <div class="container">
+      {% for request in requests %}
+      <span class="label label-info label-as-badge" id="req_id">{{ request.id }}</span>
+      <span class="label label-info label-as-badge" id="req_time">{{ request.time }}</span>
+      <span class="label label-info label-as-badge" id="req_line">{{ request.line }}</span>
+      </br>
+      </br>
+      {% endfor %}
+    </div>
+
+
+
+  <!-- Javascripts Inclusion -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+
+  <script>
+  // $(".container > span#req_id").css("background-color","crimson");
+
+  setInterval(function(){
+		$("title").html("(" + localStorage.newRequestsCount + ") Requests");
+
+    //resetting style due to possible multiple requests
+    $(".container > span").css("background-color","");
+    //defining style for final request
+    $(".container > span#req_id:lt("+localStorage.newRequestsCount+")").css("background-color","lime");
+    $(".container > span#req_time:lt("+localStorage.newRequestsCount+")").css("background-color","lime");
+    $(".container > span#req_line:lt("+localStorage.newRequestsCount+")").css("background-color","lime");
+    // $("#test").html(localStorage.newRequestsCount);
+
+    var req = JSON.parse(localStorage.getItem('Requests'));
+    $.each(req, function(index,value){
+      var req_array = value.split(" -- ",3);
+      $(".container > span#req_id:eq("+index+")").text(req_array[0]);
+      $(".container > span#req_time:eq("+index+")").text(req_array[2]);
+      $(".container > span#req_line:eq("+index+")").text(req_array[1]);
+    });
+
+		},100);
+
+  </script>
+
+  </body>
+
+</html>

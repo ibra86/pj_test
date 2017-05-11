@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.utils import timezone
-from .models import Post
+from .models import Post, RequestStat
 from .forms import PostForm
 
 # Create your views here.
@@ -32,6 +32,24 @@ def post_new(request):
     form = PostForm()
     return render(request, 'post_edit.html', {'form':form})
 
+def requests(request):
+    requests = RequestStat.objects.all().order_by('-id')[:10]
+    # print 'is_ajax?'
+    if request.is_ajax():
+        from django.http import JsonResponse
+        from django.utils import timezone
+        # print '--AJAX at ', timezone.now().strftime("%H:%M:%S")
+        # for f in requests:
+        #     print f
+        #     if 'is_new: True' in str(f):
+        #         print 'Yes'
+        new_req_num = len(RequestStat.objects.filter(is_new=True))
+        req_stat = [str(k) for k in requests]
+        RequestStat.objects.filter(is_new=True).update(is_new=False);
+
+        return JsonResponse({'new_req_num':new_req_num, 'req_stat':req_stat})
+    # print 'not ajax'
+    return render(request, 'requests.html',{'requests':requests})
 
 
 

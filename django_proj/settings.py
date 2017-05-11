@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_app',
+    # 'dajaxice'
+    # 'dajax',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -49,6 +51,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_proj.middleware.RequestStatMiddleware',
 ]
 
 ROOT_URLCONF = 'django_proj.urls'
@@ -56,7 +59,7 @@ ROOT_URLCONF = 'django_proj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,7 +69,12 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django_app.context_processors.post_num',
                 'django_app.context_processors.portal_url',
+                'django_app.context_processors.context_requests',
             ],
+            # 'loaders':[
+            #         'django.template.loaders.filesystem.Loader',
+            #         'django.template.loaders.app_directories.Loader'
+            # ]
         },
     },
 ]
@@ -115,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
